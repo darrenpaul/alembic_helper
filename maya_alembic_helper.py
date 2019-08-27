@@ -12,7 +12,7 @@ BASE_ATTRIBUTES = [
 ]
 
 
-class MayaAlembic:
+class Helper:
     def __init__(self, node, target_path):
         self.check_alembic_plugin()
         self.node = node

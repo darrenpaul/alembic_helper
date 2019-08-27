@@ -1,4 +1,4 @@
-from maya.cmds import cmds
+import maya.cmds as cmds
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(

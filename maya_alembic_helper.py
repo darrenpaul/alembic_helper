@@ -13,35 +13,51 @@ BASE_ATTRIBUTES = [
 
 
 class Helper:
-    def __init__(self, node, target_path):
+    def __init__(self):
         self.check_alembic_plugin()
-        self.node = node
-        self.output = pc_helper.set_file_extension(target_path, "abc")
-        self.start_frame = cmds.playbackOptions(
-            animationStartTime=True, query=True, edit=True)
-        self.end_framme = cmds.playbackOptions(
-            animationEndTime=True, query=True, edit=True)
-        self.isolate = True
-        self.bake = True
-        self.custom_attributes = []
-        self.command = self.__create_default_command()
+        self._node = None
+        self._output = None
+        self._command = self.__create_default_command()
+
+    @property
+    def set_alembic_node(self, node):
+        self._node = node
+
+    @property
+    def get_alembic_node(self):
+        return self._node
+
+    @property
+    def set_alembic_output(self, output):
+        self._output = output
+
+    @property
+    def get_alembic_output(self):
+        return self._output
+
+    @property
+    def set_alembic_command(self, commands):
+        self._command = self.__create_default_command(extra_attributes=commands)
+
+    @property
+    def get_alembic_command(self):
+        return self._command
+
 
     def export_alembic(self):
-        ["-root {}".format(str(self.node)),"-file {}".format(self.exportPath)]
-        if os.path.exists(os.path.dirname(self.output)):
-            cmds.AbcExport(j=self.command)
+        ["-root {}".format(str(self._node)),"-file {}".format(self._output)]
+        if os.path.exists(os.path.dirname(self._output)):
+            cmds.AbcExport(j=self._command)
 
     def __create_default_command(self, extra_attributes=None):
         attrs = BASE_ATTRIBUTES
-        if self.custom_attributes:
-            attrs = attrs + self.custom_attributes
         if extra_attributes is not None:
             attrs = attrs + extra_attributes
         attrs = attrs + self.__get_write_attributes()
         return " ".join(attrs)
     
     def __get_write_attributes(self):
-        return ["-root {}".format(self.node),"-file {}".format(self.output)]
+        return ["-root {}".format(self._node),"-file {}".format(self._output)]
 
     @classmethod
     def check_alembic_plugin(cls):

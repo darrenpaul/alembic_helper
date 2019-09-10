@@ -1,0 +1,5 @@
+__author__ = "Darren Paul"
+__license__ = "MIT"
+__version__ = "1.0.1"
+__maintainer__ = "Darren Paul"
+__status__ = "Production"
